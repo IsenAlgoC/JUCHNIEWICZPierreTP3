@@ -61,11 +61,38 @@ int main() {
 
 
 	float SommeEcartType = 0;
+	float tmp = 0;
 	for (int i = 0; i < NBMAXNOTES; ++i) {
-		SommeEcartType = (SommeEcartType+(powf((Tab[i] - moyenne), 2)));
+		if (Tab[i] > 0) {
+			tmp = pow(((double)Tab[i] - (double)moyenne), 2);
+			SommeEcartType += tmp;
+		}
 	}
-	float ecarttype = 1. / (30 - 1);
-	ecarttype = sqrtf(ecarttype*SommeEcartType);
+	float ecarttype = SommeEcartType / (compteur-1);
+	ecarttype = sqrt(ecarttype);
 	printf("\nL'ecart type est egal a %0.2f\n", ecarttype);
+
+	printf("TABLEAU No 1 :\n");
+	printf("\nNo note		Valeur note");
+
+	for (int i = 0; i < NBMAXNOTES; ++i) {
+		if (Tab[i] > 0) {
+			printf("\n%d		%0.2f\n", i, Tab[i]);
+		}
+	}
+
+	float tmp2 = 0;
+	for (int d = NBMAXNOTES; d > 0; --d) {
+		for (int i = 0; i < d; i++) {
+			if (Tab[i] < Tab[i + 1]) {
+				tmp2 = Tab[i];
+				Tab[i] = Tab[i + 1];
+				Tab[i + 1] = tmp;
+			}
+		}
+	}
+	printf("TABLEAU No 2 :\n");
+	printf("\nNo note		Valeur note");
+
 }
 
