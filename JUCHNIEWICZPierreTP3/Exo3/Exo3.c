@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #define NBMAXNOTES 30
 int main() {
-	float Tab[NBMAXNOTES] = { 0 };
+	float Tab[NBMAXNOTES] = { -2 };
 	int absent = 0;
 	float compteur = 0;
 	float moyenne = 0;
@@ -12,9 +13,6 @@ int main() {
 		float n = 0;
 		printf("\nEntrez la note no%d : ", i+1);
 		scanf_s("%f", &n);
-		if (n == 0) {
-			ecrit0 = 1;
-		}
 		if (n < 0 || n>20) {
 			int choix = 0;
 			printf("Vous avez tape une note invalide, l'eleve no %d est-il (2)absent ou voulez-vous arreter la saisie (1)oui ou (0)non ?",i+1);
@@ -40,7 +38,7 @@ int main() {
 		}
 	}
 	for (int i = 0; i < NBMAXNOTES; i++) {
-		if (Tab[i] != -1) {
+		if (Tab[i] > 0) {
 			valtot = valtot + Tab[i];
 		}
 	}
@@ -51,10 +49,7 @@ int main() {
 			if (max < Tab[i]) {
 				max = Tab[i];
 			}
-			if ((min > Tab[i]) & (ecrit0 == 1)) {
-				min = Tab[i];
-			}
-			if ((min > Tab[i]) & (ecrit0 == 0) & (Tab[i] != 0)) {
+			if (min > Tab[i]) {
 				min = Tab[i];
 			}
 		}
@@ -63,4 +58,14 @@ int main() {
 	printf("\nLa moyenne de ces %d notes est %0.2f",(int)(compteur),moyenne);
 	printf("\nIl y a %d absent(s)\n", absent);
 	printf("\nLa valeur min est %0.2f et max est %0.2f", min, max);
+
+
+	float SommeEcartType = 0;
+	for (int i = 0; i < NBMAXNOTES; ++i) {
+		SommeEcartType = (SommeEcartType+(powf((Tab[i] - moyenne), 2)));
+	}
+	float ecarttype = 1. / (30 - 1);
+	ecarttype = sqrtf(ecarttype*SommeEcartType);
+	printf("\nL'ecart type est egal a %0.2f\n", ecarttype);
 }
+
