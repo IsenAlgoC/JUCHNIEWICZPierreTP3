@@ -2,46 +2,74 @@
 #include <stdio.h>
 #include <math.h>
 #define NBMAXNOTES 30
+
+
 int main() {
-	float Tab[NBMAXNOTES] = { -2 };
-	int absent = 0;
-	float compteur = 0;
-	float moyenne = 0;
-	float valtot = 0;
-	int ecrit0 = 0;
+	//DECLARATION VARIABLES
+	float Tab[NBMAXNOTES] = { -2 };					//init tableau
+	int absent = 0;									//init nb d'absents
+	float compteur = 0;								//init compteur de note
+	float moyenne = 0;								//init moyenne
+	float valtot = 0;								//init valeur totale des notes
 	for (int i = 0; i < NBMAXNOTES; ++i) {
 		float n = 0;
-		printf("\nEntrez la note no%d : ", i+1);
+		printf("\nEntrez la note no%d : ", i + 1);
 		scanf_s("%f", &n);
 		if (n < 0 || n>20) {
-			int choix = 0;
-			printf("Vous avez tape une note invalide, l'eleve no %d est-il (2)absent ou voulez-vous arreter la saisie (1)oui ou (0)non ?",i+1);
-			scanf_s("%d", &choix);
-			if (choix == 2) {
+			char choix;
+			printf("Vous avez tape une note invalide, l'eleve no %d est-il (A)absent ou voulez-vous arreter la saisie (O)oui ou (N)non ?", i + 1);
+			choix = _getch();
+			printf("%c", choix);
+			switch (choix) {
+			case 'A':
 				Tab[i] = -1;
 				absent = absent + 1;
-			}
-			if (choix == 1) {
+
+			case 'a':
+				Tab[i] = -1;
+				absent = absent + 1;
+
+			case 'O':
+				i = NBMAXNOTES;
 				break;
-			}
-			if (choix == 0) {
+
+			case 'o':
+				i = NBMAXNOTES;
+				break;
+
+			case 'N':
 				printf("Resaisir la valeur :");
 				scanf_s("%f", &n);
 				compteur = compteur + 1;
 				Tab[i] = n;
+				break;
+
+			case 'n':
+				printf("\nResaisir la valeur :");
+				scanf_s("%f", &n);
+				compteur = compteur + 1;
+				Tab[i] = n;
+				break;
+
+			default :
+				break;
+
 			}
 		}
-		else{
-
-			Tab[i] = n;
-			compteur = compteur + 1;
-		}
+			else {
+				Tab[i] = n;
+				compteur = compteur + 1;
+			}
 	}
+
+	//addition de toutes les notes
 	for (int i = 0; i < NBMAXNOTES; i++) {
 		if (Tab[i] > 0) {
 			valtot = valtot + Tab[i];
 		}
 	}
+
+	//Détermination du max et du min
 	float max = 0;
 	float min = 20;
 	for (int i = 0; i < NBMAXNOTES; i++) {
@@ -72,27 +100,40 @@ int main() {
 	ecarttype = sqrt(ecarttype);
 	printf("\nL'ecart type est egal a %0.2f\n", ecarttype);
 
+	float Tab2[30] = { 0 };
+	
+
+	//AFFICHAGE PREMIER TABLEAU
 	printf("TABLEAU No 1 :\n");
 	printf("\nNo note		Valeur note");
-
 	for (int i = 0; i < NBMAXNOTES; ++i) {
 		if (Tab[i] > 0) {
 			printf("\n%d		%0.2f\n", i, Tab[i]);
 		}
+		Tab2[i] = Tab[i];
 	}
 
-	float tmp2 = 0;
-	for (int d = NBMAXNOTES; d > 0; --d) {
-		for (int i = 0; i < d; i++) {
-			if (Tab[i] < Tab[i + 1]) {
-				tmp2 = Tab[i];
-				Tab[i] = Tab[i + 1];
-				Tab[i + 1] = tmp;
-			}
+	//TRI A BULLE 
+	int desordre = 1;
+	while (desordre) {
+		desordre = 0;
+		for (int i = 0; i < compteur; i++) {
+				if (Tab2[i] > Tab2[i + 1]) {
+					int tmp = Tab2[i + 1];
+					Tab2[i + 1] = Tab2[i];
+					Tab2[i] = tmp;
+					desordre = 1;
+				}
 		}
 	}
+
 	printf("TABLEAU No 2 :\n");
 	printf("\nNo note		Valeur note");
 
+	for (int i = 0; i < NBMAXNOTES; ++i) {
+		if (Tab2[i] > 0) {
+			printf("\n%d		%0.2f\n", i, Tab2[i]);
+		}
+	}
 }
 
