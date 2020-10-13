@@ -24,10 +24,12 @@ int main() {
 			case 'A':
 				Tab[i] = -1;
 				absent = absent + 1;
+				break;
 
 			case 'a':
 				Tab[i] = -1;
 				absent = absent + 1;
+				break;
 
 			case 'O':
 				i = NBMAXNOTES;
@@ -108,7 +110,7 @@ int main() {
 	printf("\nNo note		Valeur note");
 	for (int i = 0; i < NBMAXNOTES; ++i) {
 		if (Tab[i] > 0) {
-			printf("\n%d		%0.2f\n", i, Tab[i]);
+			printf("\n%d		%0.2f\n", i+1, Tab[i]);
 		}
 		Tab2[i] = Tab[i];
 	}
